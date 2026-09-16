@@ -15,7 +15,7 @@ MediFamba é uma plataforma de agendamento e gestão de consultas médicas desen
 
 ## Tecnologias Utilizadas
 
-* **Backend:** Java (Spring Boot) / Python (Django)
-* **Base de Dados:** PostgreSQL / MySQL
+* **Backend:** Java (Spring Boot)
+* **Base de Dados:** PostgreSQL
 * **Migrações de Base de Dados:** Flyway
 * **Contentorização:** Docker
