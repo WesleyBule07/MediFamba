@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: medifamba-db
+    environment:
+      POSTGRES_DB: medifamba
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 070239
+    ports:
+      - "5432:5432"
+    volumes:
+      - medifamba-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d medifamba"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: medifamba-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/medifamba
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 070239
+      MEDIFAMBA_JWT_SECRET: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+      MEDIFAMBA_CORS_ALLOWEDORIGINS: http://localhost:5173
+    ports:
+      - "8080:8080"
+
+volumes:
+  medifamba-db-data:
